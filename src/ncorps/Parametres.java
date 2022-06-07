@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 
 import static java.util.stream.IntStream.range;
 
-interface Parametres {
+public interface Parametres {
     int NbCorps = 3;
     int Tmax = 1000;
     Supplier<IntStream> CORPS = () -> range(0, NbCorps);
@@ -27,7 +27,7 @@ interface Parametres {
     MathContext mc = new MathContext(precision);
     RoundingMode rnd = RoundingMode.HALF_DOWN;
 
-    Calculs.CorpsV2[][] NCorpsT0 = new Calculs.CorpsV2[3][Tmax];
+    Calculs.Corps[][] NCorpsT0 = new Calculs.Corps[3][Tmax];
 
     String pathname = "C:\\Users\\gille\\IdeaProjects\\3CorpsV2\\";
     String filename1 = "3corpsX";

@@ -1,7 +1,9 @@
 package representation;
 
-import ncorps3.Calcul3Corps;
-import ncorps3.Parametres;
+
+
+import ncorps.Calculs;
+import ncorps.Parametres;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -16,11 +18,11 @@ import static java.awt.image.Raster.createInterleavedRaster;
 public class Output implements Parametres {
 
     private final boolean[][] coord;
-    private final Calcul3Corps calculs;
+    private final Calculs calculs;
     private WriteToFile W;
 
     public Output() throws IOException {
-        calculs = new Calcul3Corps();
+        calculs = new Calculs();
 
         for (int ncoord = 0; ncoord < NbCorps; ncoord++) {
             W = new WriteToFile(pathname, filename1 + ncoord + ".txt");
@@ -40,7 +42,7 @@ public class Output implements Parametres {
     }
 
     void toFile(int ncoord) throws IOException {
-        Calcul3Corps.Corps[][] I = calculs.ncorps;
+        Calculs.Corps[][] I = calculs.ncorps;
         for (int t = 0; t < Tmax; t++) {
             for (int n = 0; n < NbCorps; n++) {
                 W.write(I[n][t].param[ncoord]);
@@ -51,7 +53,7 @@ public class Output implements Parametres {
     }
 
     void toFile2(int numcorps) throws IOException {
-        Calcul3Corps.Corps[][] I = calculs.ncorps;
+        Calculs.Corps[][] I = calculs.ncorps;
         for (int t = 0; t < Tmax; t++) {
             for (int c = 0; c < 3; c++) {
                 W.write(I[numcorps][t].param[c]);
@@ -62,7 +64,7 @@ public class Output implements Parametres {
     }
 
     void convert3DTo2DToInt(int k) {
-        Calcul3Corps.Corps[][] I = calculs.ncorps;
+        Calculs.Corps[][] I = calculs.ncorps;
 
         for (int n = 0; n < NbCorps; n++) {
             BigDecimal[] param = I[n][k].param;

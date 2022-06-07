@@ -1,21 +1,24 @@
 package representation;
 
-import ncorps3.Calcul3Corps;
+
+
+import ncorps.Calculs;
 
 import javax.swing.*;
 import java.awt.*;
 import java.math.BigDecimal;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
-import static ncorps3.Parametres.Tmax;
+import static ncorps.Parametres.*;
+
 
 public class ImgNCorps extends Canvas {
-    private final Calcul3Corps calculs;
+    private final Calculs calculs;
     int WIDTH = 600;
     int HEIGHT = 600;
 
     public ImgNCorps() {
-        calculs = new Calcul3Corps();
+        calculs = new Calculs();
         JFrame frame = new JFrame();
         frame.setSize(WIDTH, HEIGHT);
         frame.add(this);
