@@ -1,9 +1,9 @@
 package representation;
 
 
-
 import ncorps.Calculs;
 import ncorps.Parametres;
+import tools.BD;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,9 +11,9 @@ import java.awt.image.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.math.BigDecimal;
 
 import static java.awt.image.Raster.createInterleavedRaster;
+import static tools.BD.intValue;
 
 public class Output implements Parametres {
 
@@ -67,9 +67,9 @@ public class Output implements Parametres {
         Calculs.Corps[][] I = calculs.ncorps;
 
         for (int n = 0; n < NbCorps; n++) {
-            BigDecimal[] param = I[n][k].param;
-            int X = param[0].intValue();
-            int Y = param[1].intValue();
+            BD[] param = I[n][k].param;
+            int X = intValue(param[0]);
+            int Y = intValue(param[1]);
             System.out.print(X);
             System.out.print(" ; ");
             System.out.print(Y);
@@ -127,7 +127,7 @@ public class Output implements Parametres {
             writter = new FileWriter(filename);
         }
 
-        public void write(BigDecimal bd) throws IOException {
+        public void write(BD bd) throws IOException {
             writter.write(String.valueOf(bd));
         }
 

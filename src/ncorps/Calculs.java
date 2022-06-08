@@ -1,42 +1,44 @@
 package ncorps;
 
-import java.math.BigDecimal;
-import java.util.function.BiFunction;
+import tools.BD;
+
 import java.util.function.Function;
 
 import static java.lang.Math.random;
+import static tools.A.browse;
+import static tools.BD.*;
 
 public class Calculs implements Parametres {
 
 
     public final Corps[][] ncorps;
-    BigDecimal[] d = new BigDecimal[3];
-    Function<Integer, BigDecimal> c = j -> d[j].pow(2, mc);
-    BiFunction<Integer, Corps, BigDecimal> NC = (i, x) -> x.param[i];
-
-    BigDecimal zero = new BigDecimal("0.0");
-    BigDecimal demi = new BigDecimal("0.5");
+    Function<Integer, BD> G, H, R, S;
 
     public Calculs() {
-        CORPS.get().forEach(Calculs::init);
+        I.get().forEach(Calculs::init);
         ncorps = NCorpsT0;
-        T.get().forEach(t -> CORPS.get().forEach(n -> {
-            BigDecimal[] f = new BigDecimal[]{zero, zero, zero};
-            CORPS.get().filter(m -> n != m).forEach(m -> {
-                Corps corpsn = ncorps[n][t];
-                Corps corpsm = ncorps[m][t];
+        T.get().forEach(k -> I.get().forEach(n -> {
+            BD[] f = new BD[]{zero, zero, zero};
+            I.get().filter(m -> n != m).forEach(m -> {
+                Corps cn = ncorps[n][k];
+                Corps cm = ncorps[m][k];
 
-                CORPS.get().forEach(i -> d[i] = corpsn.param[i].subtract(corpsm.param[i]));
-                BigDecimal Denom = c.apply(0).add(c.apply(1)).add(c.apply(2)).sqrt(mc).pow(3, mc);
-                CORPS.get().forEach(i -> f[i] = f[i].add(Gm.multiply(d[i].divide(Denom, scale, rnd))));
+                G = i -> d[i] = moins(cn.param[i], cm.param[i]);
+                browse.accept(G);
 
-                Corps corps = new Corps(n);
+                BD Denom = pow(sqrt(plus(pow(d[0], 2), pow(d[1], 2), pow(d[2], 2))), 3);
 
-                CORPS.get().forEach(i -> corps.param[i] = demi.multiply(f[i].multiply(pas.pow(2)))
-                        .add((corpsn.param[i + 3]).multiply(pas)).add(corpsn.param[i]));
-                CORPS.get().forEach(i -> corps.param[i + 3] = f[i].multiply(pas).add(corpsn.param[i + 3]));
+                H = i -> f[i] = plus(f[i], x(Gm, div(d[i], Denom)));
+                browse.accept(H);
 
-                ncorps[n][t + 1] = corps;
+                ncorps[n][k + 1] = new Corps();
+
+                R = i -> ncorps[n][k + 1].param[i] = plus(x(DEMI, x(f[i], pow(pas, 2))), x(cn.param[i + 3], pas), cn.param[i]);
+                browse.accept(R);
+
+                S = i -> ncorps[n][k + 1].param[i + 3] = plus(x(f[i], pas), cn.param[i + 3]);
+                browse.accept(S);
+
             });
 
         }));
@@ -45,26 +47,22 @@ public class Calculs implements Parametres {
 
 
     private static void init(int n) {
-        Corps corps = new Corps(n);
-        COORD.get().forEach(c -> corps.param[c] = new BigDecimal(random() * DimXYZ));
-        VIT.get().forEach(c -> corps.param[c] = new BigDecimal(0));
-        NCorpsT0[n][t0] = corps;
+        NCorpsT0[n][t0] = new Corps();
+        COORD.get().forEach(c -> NCorpsT0[n][t0].param[c] = new BD(random() * DimXYZ));
+        VIT.get().forEach(c -> NCorpsT0[n][t0].param[c] = new BD(0));
     }
 
 
     public static class Corps {
 
-        public BigDecimal[] param;
-        public int num;
+        public BD[] param;
 
-        public Corps(int num) {
-            this.num = num;
-            param = new BigDecimal[6];
+
+        public Corps() {
+
+            param = new BD[6];
         }
 
-//         public Corps() {
-//            param = new BigDecimal[6];
-//        }
 
     }
 }

@@ -1,15 +1,15 @@
 package representation;
 
 
-
 import ncorps.Calculs;
+import tools.BD;
 
 import javax.swing.*;
 import java.awt.*;
-import java.math.BigDecimal;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
-import static ncorps.Parametres.*;
+import static ncorps.Parametres.Tmax;
+import static tools.BD.intValue;
 
 
 public class ImgNCorps extends Canvas {
@@ -41,10 +41,10 @@ public class ImgNCorps extends Canvas {
         for (int n = 0; n < 3; n++) {
             for (int t = 0; t < Tmax; t++) {
                 g.setColor(tCoul[n]);
-                BigDecimal X = calculs.ncorps[n][t].param[0];
-                BigDecimal Y = calculs.ncorps[n][t].param[1];
-                int x = X.intValue();
-                int y = Y.intValue();
+                BD X = calculs.ncorps[n][t].param[0];
+                BD Y = calculs.ncorps[n][t].param[1];
+                int x = intValue(X);
+                int y = intValue(Y);
                 g.drawOval(x, y, 2, 2);
             }
         }
